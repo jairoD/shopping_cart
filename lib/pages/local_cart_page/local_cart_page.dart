@@ -11,6 +11,10 @@ class LocalCartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          title: Text(
+            "Articulos seleccionados",
+            style: TextStyle(color: Colors.black, fontSize: 22),
+          ),
           backgroundColor: Colors.white,
           iconTheme: IconThemeData(color: Colors.black),
         ),
@@ -22,11 +26,15 @@ class LocalCartPage extends StatelessWidget {
             child: Column(
               children: [
                 LocalCartBody(),
-                GeneralButton(
-                  function: () =>
-                      BlocProvider.of<ProductsBloc>(context).add(CreateCart()),
-                  text: "Comprar",
-                )
+                BlocBuilder<ProductsBloc, ProductsState>(
+                    builder: (context, state) => state.myProducts.isNotEmpty
+                        ? GeneralButton(
+                            function: () =>
+                                BlocProvider.of<ProductsBloc>(context)
+                                    .add(CreateCart()),
+                            text: "Comprar",
+                          )
+                        : SizedBox())
               ],
             )));
   }
